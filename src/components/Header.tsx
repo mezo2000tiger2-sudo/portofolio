@@ -1,8 +1,16 @@
 import { useState } from "react"
 import { cn } from "@/lib/utils"
+import { useActiveSection } from "@/hooks/use-active-section"
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const activeSection = useActiveSection(["index", "works", "contact"])
+
+  const navLinks = [
+    { name: "INDEX", href: "#index", id: "index" },
+    { name: "WORKS", href: "#works", id: "works" },
+    { name: "CONTACT", href: "#contact", id: "contact" },
+  ]
 
   return (
     <header className="w-full bg-[#0E0E12] z-50 relative border-b border-[#222] sticky top-0 right-0 left-0">
@@ -18,9 +26,20 @@ export function Header() {
         <div className="hidden md:flex flex-1 items-center justify-between ml-12">
           {/* Centered nav links */}
           <nav className="flex items-center gap-10 text-[11px] font-sans uppercase font-bold mx-auto">
-            <a href="#index" className="text-[#D4FF5A] border-b-2 border-[#D4FF5A] pb-1 hover:text-white transition-colors">INDEX</a>
-            <a href="#works" className="text-[#8888aa] border-b-2 border-transparent pb-1 hover:text-white transition-colors">WORKS</a>
-            <a href="#contact" className="text-[#8888aa] border-b-2 border-transparent pb-1 hover:text-white transition-colors">CONTACT</a>
+            {navLinks.map((link) => (
+              <a
+                key={link.id}
+                href={link.href}
+                className={cn(
+                  "pb-1 border-b-2 transition-colors",
+                  activeSection === link.id
+                    ? "text-[#D4FF5A] border-[#D4FF5A]"
+                    : "text-[#8888aa] border-transparent hover:text-white"
+                )}
+              >
+                {link.name}
+              </a>
+            ))}
           </nav>
           
           {/* Logo icon far right */}
@@ -45,10 +64,19 @@ export function Header() {
       {/* Mobile Menu */}
       {isOpen && (
         <nav className="md:hidden absolute top-20 left-0 w-full bg-[#0E0E12] border-b border-[#222] p-6 flex flex-col gap-6 text-xs font-sans uppercase font-bold z-40">
-          <a href="#index" onClick={() => setIsOpen(false)} className="text-[#D4FF5A]">INDEX</a>
-          <a href="#works" onClick={() => setIsOpen(false)} className="text-[#8888aa] hover:text-white transition-colors">WORKS</a>
-          <a href="#lab" onClick={() => setIsOpen(false)} className="text-[#8888aa] hover:text-white transition-colors">LAB</a>
-          <a href="#contact" onClick={() => setIsOpen(false)} className="text-[#8888aa] hover:text-white transition-colors">CONTACT</a>
+          {navLinks.map((link) => (
+            <a
+              key={link.id}
+              href={link.href}
+              onClick={() => setIsOpen(false)}
+              className={cn(
+                "transition-colors",
+                activeSection === link.id ? "text-[#D4FF5A]" : "text-[#8888aa] hover:text-white"
+              )}
+            >
+              {link.name}
+            </a>
+          ))}
         </nav>
       )}
     </header>
