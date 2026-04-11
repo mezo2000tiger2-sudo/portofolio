@@ -13,7 +13,7 @@ export function Marquee() {
   const repeated = [...ITEMS, ...ITEMS, ...ITEMS]
 
   return (
-    <div className="overflow-hidden -my-2 relative z-20">
+    <div className="overflow-hidden py-10 relative z-30">
       <div className="w-[110%] -ml-[5%] bg-[#D4FF5A] py-4 border-y-2 border-black -rotate-1">
         <div className="flex whitespace-nowrap animate-marquee font-mono text-black text-sm uppercase tracking-[0.2em] font-black">
           {repeated.map((item, i) => (

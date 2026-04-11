@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useEffect } from "react"
 import { ProjectCard } from "./ProjectCard"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -6,10 +6,16 @@ import { useGSAP } from "@gsap/react"
 
 gsap.registerPlugin(ScrollTrigger)
 
-export function WorksCarousel() {
+export function WorksCarousel({ isLoaded }: { isLoaded: boolean }) {
   const sectionRef = useRef<HTMLElement>(null)
   const triggerRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (isLoaded) {
+      ScrollTrigger.refresh()
+    }
+  }, [isLoaded])
 
   const projects = [
     {
@@ -45,7 +51,7 @@ export function WorksCarousel() {
   ]
 
   useGSAP(() => {
-    if (!trackRef.current || !triggerRef.current) return
+    if (!trackRef.current || !triggerRef.current || !isLoaded) return
 
     const trackWidth = trackRef.current.scrollWidth
     const viewportWidth = window.innerWidth
@@ -57,13 +63,13 @@ export function WorksCarousel() {
       scrollTrigger: {
         trigger: triggerRef.current,
         pin: true,
-        scrub: 2,
+        scrub: 1,
         start: "top top",
         end: () => `+=${scrollAmount}`,
         invalidateOnRefresh: true,
       }
     })
-  }, { scope: sectionRef })
+  }, { scope: sectionRef, dependencies: [isLoaded] })
 
   return (
     <section id="works" ref={sectionRef} className="bg-background overflow-hidden">

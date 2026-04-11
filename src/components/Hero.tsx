@@ -1,7 +1,7 @@
 import { Marquee } from "./Marquee"
 import { SpecialText } from "./special-text"
 
-export function Hero() {
+export function Hero({ isLoaded }: { isLoaded: boolean }) {
   return (
     <section id="index" className="w-full bg-[#050505] relative flex flex-col">
       {/* Top Name Section - strictly 100vh minus header */}
@@ -19,10 +19,10 @@ export function Hero() {
           <p className="text-[#77778a] font-sans text-[8px] md:text-[10px] tracking-[0.2em] uppercase font-bold mb-4 drop-shadow-md">
             WHEREVER YOU SEE YOURSELF IN THE FUTURE, WE'LL HELP YOU...
           </p>
-          <SpecialText speed={30} className="text-[18vw] lg:text-[14vw] text-white font-sans font-black leading-[0.8] tracking-tight w-full text-center">
+          <SpecialText ready={isLoaded} speed={30} className="text-[18vw] lg:text-[14vw] text-white font-sans font-black leading-[0.8] tracking-tight w-full text-center">
             MUSTAFA
           </SpecialText>
-          <SpecialText speed={30} className="text-[18vw] lg:text-[14vw] text-[#D4FF5A] font-sans font-black leading-[0.85] tracking-tight w-full text-center drop-shadow-lg">
+          <SpecialText ready={isLoaded} speed={30} className="text-[18vw] lg:text-[14vw] text-[#D4FF5A] font-sans font-black leading-[0.85] tracking-tight w-full text-center drop-shadow-lg">
             IBRAHIM
           </SpecialText>
         </div>
