@@ -1,7 +1,67 @@
+import { useRef } from "react"
 import { Marquee } from "./Marquee"
 import { SpecialText } from "./special-text"
+import gsap from "gsap"
+import { useGSAP } from "@gsap/react"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+gsap.registerPlugin(ScrollTrigger)
 
 export function Hero({ isLoaded }: { isLoaded: boolean }) {
+  const manifestoRef = useRef<HTMLDivElement>(null)
+  const manifestoSubRef = useRef<HTMLDivElement>(null)
+
+  useGSAP(() => {
+    if (!manifestoRef.current) return
+
+    const lines = manifestoRef.current.querySelectorAll('.manifesto-line')
+    
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: manifestoRef.current,
+        start: "top 100%",
+        end: "bottom 60%",
+        scrub: 1,
+      }
+    })
+
+    lines.forEach((line, i) => {
+      // Each line gets its own sequence in the timeline
+      // Part 1: Pop out and grow large
+      tl.fromTo(line, 
+        { 
+          y: 100, 
+          opacity: 0, 
+          scale: 0.5,
+          rotateY: 20,
+          transformOrigin: "left center",
+        },
+        { 
+          y: 0, 
+          opacity: 1, 
+          scale: 1.2, // Peak size
+          rotateY: 0,
+          ease: "power2.out",
+          duration: 1
+        }, 
+        i * 0.5 // Stagger start
+      )
+      // Part 2: Settle back to normal size
+      .to(line, {
+        scale: 1,
+        ease: "power2.inOut",
+        duration: 0.5
+      }, ">-0.2") // Starts slightly before peak animation ends
+    })
+
+    tl.from(manifestoSubRef.current, {
+      y: 50,
+      opacity: 0,
+      duration: 0.5,
+    }, "-=0.3")
+
+  }, { scope: manifestoRef })
+
   return (
     <section id="index" className="w-full bg-[#050505] relative flex flex-col">
       {/* Top Name Section - strictly 100vh minus header */}
@@ -32,31 +92,30 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
       <Marquee />
 
       {/* Manifesto Section */}
-      <div className="bg-[#0A0A0F] border-t border-[#222]">
+      <div ref={manifestoRef} className="bg-[#0A0A0F] border-t border-[#222] perspective-1000">
         <div className="px-6 py-20 md:py-32 relative flex flex-col xl:flex-row justify-between items-start gap-12 lg:gap-16 lg:pl-16">
           <div className="w-full">
-            <h3 className="font-heading font-extrabold text-5xl sm:text-6xl md:text-8xl lg:text-[7rem] xl:text-[9rem] leading-[0.85] tracking-tighter text-white uppercase break-words w-full">
-              I BUILD <span className="text-[#D4FF5A]">HIGH-<br className="hidden sm:block" />PERFORMANCE</span><br />
-              WEB<br />
-              APPLICATIONS<br />
-              WITH A FOCUS<br />
-              ON <span className="text-[#D4FF5A]">IMMERSIVE<br />
-                MOTION</span> AND<br />
-              PRECISE<br />
-              ENGINEERING.
+            <h3 className="font-heading font-extrabold text-5xl sm:text-6xl md:text-8xl lg:text-[7rem] xl:text-[8rem] 2xl:text-[9rem] leading-[0.85] tracking-tighter text-white uppercase break-words w-full">
+              <p className="manifesto-line mb-2">I BUILD <span className="text-[#D4FF5A]">HIGH-</span></p>
+              <p className="manifesto-line mb-2"><span className="text-[#D4FF5A]">PERFORMANCE</span></p>
+              <p className="manifesto-line mb-2">WEB APPLICATIONS</p>
+              <p className="manifesto-line mb-2">WITH A FOCUS</p>
+              <p className="manifesto-line mb-2">ON <span className="text-[#D4FF5A]">IMMERSIVE</span></p>
+              <p className="manifesto-line mb-2"><span className="text-[#D4FF5A]">MOTION</span> AND</p>
+              <p className="manifesto-line mb-2">PRECISE</p>
+              <p className="manifesto-line">ENGINEERING.</p>
             </h3>
           </div>
 
           {/* Sub text positioned right */}
-          <div className="w-full xl:w-1/3 flex flex-col items-start gap-10 xl:mt-auto xl:pb-8 xl:pl-8">
+          <div ref={manifestoSubRef} className="w-full flex flex-col items-start gap-10 xl:mt-auto xl:pb-8 xl:pl-8">
             <p className="text-[#8888aa] text-[10px] sm:text-xs leading-[2] border-l border-[#D4FF5A]/30 pl-5 font-mono max-w-sm uppercase tracking-widest">
               Currently seeking frontend and backend challenges that push the boundaries of digital experience.
             </p>
             <button className="bg-transparent hover:bg-[#D4FF5A]/10 text-[#D4FF5A] font-mono tracking-widest uppercase text-[10px] sm:text-xs flex items-center gap-3 font-bold p-2 rounded-xs transition-colors group">
-            <a href="#contact">
-
-              INITIATE CONTACT
-            </a>
+              <a href="#contact" className="contents">
+                INITIATE CONTACT
+              </a>
               <span className="w-8 h-8 border border-[#D4FF5A] flex items-center justify-center rounded-full group-hover:bg-[#D4FF5A] group-hover:text-black transition-colors shrink-0">
                 →
               </span>

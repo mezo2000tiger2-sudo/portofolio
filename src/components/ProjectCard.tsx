@@ -34,7 +34,7 @@ export function ProjectCard({ title, category, year, imageText }: ProjectCardPro
         
         <div className="w-10 h-10 text-primary overflow-hidden relative">
            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" className="absolute bottom-1 right-1 transform translate-x-[120%] translate-y-[120%] group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-300"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" className="absolute bottom-1 right-1 group-hover:-translate-x-[120%] group-hover:-translate-y-[120%] transition-transform duration-300"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" className="absolute bottom-1 right-1 group-hover:-translate-x-[120%] group-hover:-translate-y-[140%] transition-transform duration-300"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
         </div>
       </div>
     </div>

@@ -40,7 +40,7 @@ export function Footer() {
              <Textarea className="bg-[#111] border-b border-[#333] border-x-0 border-t-0 text-white rounded-none min-h-[100px] font-mono text-sm focus-visible:ring-0 focus-visible:border-primary px-0 placeholder:text-[#333] resize-none" placeholder="Tell me about your idea..." />
            </div>
 
-           <button className="w-full bg-primary hover:bg-white transition-colors duration-300 text-black rounded-none h-14 font-mono text-[10px] font-bold uppercase tracking-widest mt-4">
+           <button className="w-full bg-primary hover:bg-white transition-colors duration-300 text-black rounded-none h-14 font-mono text-[20px]  font-bold uppercase tracking-widest mt-4">
              SUBMIT PROTOCOL <span className="ml-2 font-black">→</span>
            </button>
         </div>
