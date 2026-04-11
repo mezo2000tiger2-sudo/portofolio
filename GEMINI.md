@@ -7,7 +7,7 @@ This project is a high-performance personal portfolio website for **Mustafa Ibra
 - **Core Framework:** [React 19](https://react.dev/) with [TypeScript](https://www.typescriptlang.org/)
 - **Build Tool:** [Vite 6+](https://vite.dev/)
 - **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
-- **Animations:** [Framer Motion](https://www.framer.com/motion/) (`motion/react`)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/) and [GSAP](https://gsap.com/) with ScrollTrigger
 - **UI Components:** [Radix UI](https://www.radix-ui.com/) and [shadcn/ui](https://ui.shadcn.com/) (using `radix-nova` style)
 - **Icons:** [Lucide React](https://lucide.dev/)
 
