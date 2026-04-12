@@ -1,6 +1,7 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { Marquee } from "./Marquee"
 import { SpecialText } from "./special-text"
+import { Signature } from "./signature"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -9,121 +10,153 @@ gsap.registerPlugin(ScrollTrigger)
 
 export function Hero({ isLoaded }: { isLoaded: boolean }) {
   const manifestoRef = useRef<HTMLDivElement>(null)
-  const manifestoSubRef = useRef<HTMLDivElement>(null)
+  const scrollTrackRef = useRef<HTMLDivElement>(null)
+  const blackCardRef = useRef<HTMLDivElement>(null)
+  const signatureRef = useRef<HTMLDivElement>(null)
+  
+  const [signatureProgress, setSignatureProgress] = useState(0)
 
   useGSAP(() => {
-    if (!manifestoRef.current) return
+    if (!scrollTrackRef.current || !blackCardRef.current || !signatureRef.current) return
 
-    const lines = manifestoRef.current.querySelectorAll('.manifesto-line')
-    
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: manifestoRef.current,
-        start: "top 100%",
-        end: "bottom 40%",
-        scrub: 1,
-
+        trigger: scrollTrackRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.5,
       }
     })
 
-    lines.forEach((line, i) => {
-      // Each line gets its own sequence in the timeline
-      // Part 1: Pop out and grow large
-      tl.fromTo(line, 
-        { 
-          y: 100, 
-          opacity: 0, 
-          scale: 0.5,
-          rotateY: 20,
-          transformOrigin: "left center",
-        },
-        { 
-          y: 0, 
-          opacity: 1, 
-          scale: 1.2, // Peak size
-          rotateY: 0,
-          ease: "power2.out",
-          duration: 1
-        }, 
-        i * 0.5 // Stagger start
-      )
-      // Part 2: Settle back to normal size
-      .to(line, {
-        scale: 1,
-        ease: "power2.inOut",
-        duration: 0.5
-      }, ">-0.2") // Starts slightly before peak animation ends
-    })
+    // 1. Scale down the black card (Opacity is now kept at 1)
+    tl.to(blackCardRef.current, {
+      scale: 0.5,
+      filter: "blur(5px)",
+      borderRadius: "60px",
+      ease: "power2.inOut",
+      duration: 1
+    }, 0)
 
-    tl.from(manifestoSubRef.current, {
-      y: 50,
+    // 2. Signature fade in and scale
+    tl.fromTo(signatureRef.current, {
       opacity: 0,
-      duration: 0.5,
-    }, "-=1")
+      scale: 0.8
+    }, {
+      opacity: 1,
+      scale: 1.1,
+      ease: "power2.out",
+      duration: 0.8
+    }, 0.2)
 
-  }, { scope: manifestoRef })
+    // 3. Drive the handwriting progress linked to scroll
+    tl.to({ val: 0 }, {
+      val: 1,
+      duration: 0.8,
+      ease: "none",
+      onUpdate: function() {
+        setSignatureProgress(this.targets()[0].val)
+      }
+    }, 0.3)
+
+    // Manifesto Section Animation
+    if (manifestoRef.current) {
+      const lines = manifestoRef.current.querySelectorAll('.manifesto-line')
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: manifestoRef.current,
+          start: "top 90%",
+          end: "bottom 30%",
+          scrub: 1,
+        }
+      })
+      .fromTo(lines, 
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.1, ease: "power2.out" }
+      )
+    }
+
+  }, { scope: scrollTrackRef, dependencies: [isLoaded] })
 
   return (
-    <section id="index" className="w-full bg-[#050505] relative flex flex-col">
-      {/* Top Name Section - strictly 100vh minus header */}
-      <div className="relative w-full h-[calc(100vh-80px)] min-h-[500px] flex flex-col items-center justify-center overflow-hidden">
-
-        {/* Subtle glass circle background entirely centered */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-[80vw] h-[80vw] md:w-[60vh] md:h-[60vh] rounded-full absolute bg-gradient-to-b from-[#1a1a20] to-[#0a0a0f] opacity-80 backdrop-blur-md shadow-[0_0_100px_rgba(255,255,255,0.02)]">
-            <div className="w-full h-full rounded-full opacity-10 mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNmZmYiPjwvcmVjdD4KPC9zdmc+')]"></div>
-          </div>
-        </div>
-
-        {/* Name Text Stack */}
-        <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 mt-8">
-          <p className="text-[#77778a] font-sans text-[8px] md:text-[10px] tracking-[0.2em] uppercase font-bold mb-4 drop-shadow-md">
-            WHEREVER YOU SEE YOURSELF IN THE FUTURE, WE'LL HELP YOU...
-          </p>
-          <SpecialText ready={isLoaded} speed={30} className="text-[18vw] lg:text-[14vw] text-white font-sans font-black leading-[0.8] tracking-tight w-full text-center">
-            MUSTAFA
-          </SpecialText>
-          <SpecialText ready={isLoaded} speed={30} className="text-[18vw] lg:text-[14vw] text-[#D4FF5A] font-sans font-black leading-[0.85] tracking-tight w-full text-center drop-shadow-lg">
-            IBRAHIM
-          </SpecialText>
-        </div>
-      </div>
-
-      {/* Marquee Ribbon */}
-      <Marquee />
-
-      {/* Manifesto Section */}
-      <div ref={manifestoRef} className="bg-[#0A0A0F] border-t border-[#222] perspective-1000">
-        <div className="px-6 py-20 md:py-32 relative flex flex-col xl:flex-row justify-between items-start gap-12 lg:gap-16 lg:pl-16">
-          <div className="w-full">
-            <h3 className="font-heading font-extrabold text-5xl sm:text-6xl md:text-8xl lg:text-[7rem] xl:text-[8rem] 2xl:text-[9rem] leading-[0.85] tracking-tighter text-white uppercase break-words w-full">
-              <p className="manifesto-line mb-2">I BUILD <span className="text-[#D4FF5A]">HIGH-</span></p>
-              <p className="manifesto-line mb-2"><span className="text-[#D4FF5A]">PERFORMANCE</span></p>
-              <p className="manifesto-line mb-2">WEB APPLICATIONS</p>
-              <p className="manifesto-line mb-2">WITH A FOCUS</p>
-              <p className="manifesto-line mb-2">ON <span className="text-[#D4FF5A]">IMMERSIVE</span></p>
-              <p className="manifesto-line mb-2"><span className="text-[#D4FF5A]">MOTION</span> AND</p>
-              <p className="manifesto-line mb-2">PRECISE</p>
-              <p className="manifesto-line">ENGINEERING.</p>
-            </h3>
+    <div className="relative w-full">
+      {/* 1. THE SCROLL TRACK */}
+      <div ref={scrollTrackRef} className="relative h-[250vh] w-full bg-[#1a1c11]">
+        
+        {/* 2. THE STICKY VIEWPORT */}
+        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+          
+          {/* THE OLIVE BACKGROUND */}
+          <div className="absolute inset-0 z-0 pointer-events-none opacity-25">
+            <svg width="100%" height="100%" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
+              <g fill="none" stroke="#D4FF5A" strokeWidth="0.5">
+                {[...Array(15)].map((_, i) => (
+                  <path 
+                    key={i} 
+                    d={`M-100 ${50 + i * 50} Q 200 ${20 + i * 30}, 400 ${50 + i * 50} T 900 ${50 + i * 50}`} 
+                  />
+                ))}
+              </g>
+            </svg>
+            <div className="absolute inset-0 bg-radial-gradient from-transparent to-black/60" />
           </div>
 
-          {/* Sub text positioned right */}
-          <div ref={manifestoSubRef} className="w-full flex flex-col items-start gap-10 xl:mt-auto xl:pb-8 xl:pl-8">
-            <p className="text-[#8888aa] text-[10px] sm:text-xs leading-[2] border-l border-[#D4FF5A]/30 pl-5 font-mono max-w-sm uppercase tracking-widest">
-              Currently seeking frontend and backend challenges that push the boundaries of digital experience.
-            </p>
-            <button className="bg-transparent hover:bg-[#D4FF5A]/10 text-[#D4FF5A] font-mono tracking-widest uppercase text-[10px] sm:text-xs flex items-center gap-3 font-bold p-2 rounded-xs transition-colors group">
-              <a href="#contact" className="contents">
-                INITIATE CONTACT
-              </a>
-              <span className="w-8 h-8 border border-[#D4FF5A] flex items-center justify-center rounded-full group-hover:bg-[#D4FF5A] group-hover:text-black transition-colors shrink-0">
-                →
-              </span>
-            </button>
+          {/* THE BLACK INTRO CARD - Opacity removed from animation */}
+          <div 
+            ref={blackCardRef}
+            className="absolute inset-0 z-10 bg-[#050505] flex flex-col items-center justify-center shadow-2xl origin-center"
+          >
+            <div className="relative z-10 flex flex-col items-center justify-center w-full px-4">
+              <p className="text-[#77778a] font-sans text-[8px] md:text-[10px] tracking-[0.2em] uppercase font-bold mb-4">
+                WHEREVER YOU SEE YOURSELF IN THE FUTURE, WE'LL HELP YOU...
+              </p>
+              <SpecialText ready={isLoaded} speed={30} className="text-[18vw] lg:text-[14vw] text-white font-sans font-black leading-[0.8] tracking-tight w-full text-center">
+                MUSTAFA
+              </SpecialText>
+              <SpecialText ready={isLoaded} speed={30} className="text-[18vw] lg:text-[14vw] text-[#D4FF5A] font-sans font-black leading-[0.85] tracking-tight w-full text-center">
+                IBRAHIM
+              </SpecialText>
+            </div>
+          </div>
+
+          {/* THE SIGNATURE - Now using the 'progress' prop */}
+          <div 
+            ref={signatureRef}
+            className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none opacity-0"
+          >
+            <div className="w-[90vw] md:w-[70vw] h-[50vh] flex items-center justify-center">
+              <Signature 
+                text="Mustafa" 
+                color="#D4FF5A" 
+                fontSize={400} 
+                className="w-full h-full drop-shadow-[0_0_40px_rgba(212,255,90,0.5)]"
+                progress={signatureProgress}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </section>
+
+      {/* 3. SUBSEQUENT CONTENT */}
+      <div className="relative z-30 bg-[#050505] -mt-[1px]">
+        <Marquee />
+        
+        <div ref={manifestoRef} className="bg-[#0A0A0F] border-t border-[#222]">
+          <div className="px-6 py-20 md:py-32 flex flex-col xl:flex-row justify-between items-start gap-12 lg:gap-16 lg:pl-16">
+            <div className="w-full">
+              <h3 className="font-heading font-extrabold text-5xl sm:text-6xl md:text-8xl lg:text-[7rem] xl:text-[8rem] 2xl:text-[9rem] leading-[0.85] tracking-tighter text-white uppercase break-words w-full">
+                <p className="manifesto-line mb-2">I BUILD <span className="text-[#D4FF5A]">HIGH-</span></p>
+                <p className="manifesto-line mb-2"><span className="text-[#D4FF5A]">PERFORMANCE</span></p>
+                <p className="manifesto-line mb-2">WEB APPLICATIONS</p>
+                <p className="manifesto-line mb-2">WITH A FOCUS</p>
+                <p className="manifesto-line mb-2">ON <span className="text-[#D4FF5A]">IMMERSIVE</span></p>
+                <p className="manifesto-line mb-2"><span className="text-[#D4FF5A]">MOTION</span> AND</p>
+                <p className="manifesto-line mb-2">PRECISE</p>
+                <p className="manifesto-line">ENGINEERING.</p>
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

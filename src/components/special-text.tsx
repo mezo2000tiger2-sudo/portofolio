@@ -44,8 +44,8 @@ export function SpecialText({
     // If not ready, not in view, or already started, don't do anything
     if (!ready || !shouldAnimate || hasStartedRef.current) return;
 
-    let timeout: NodeJS.Timeout;
-    let interval: NodeJS.Timeout;
+    let timeout: any;
+    let interval: any;
 
     const start = () => {
       hasStartedRef.current = true;
