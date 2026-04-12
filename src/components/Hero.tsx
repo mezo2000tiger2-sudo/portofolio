@@ -1,4 +1,5 @@
-import { useRef, useState } from "react"
+import { useRef } from "react"
+import { useMotionValue } from "motion/react"
 import { Marquee } from "./Marquee"
 import { SpecialText } from "./special-text"
 import { Signature } from "./signature"
@@ -13,8 +14,7 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
   const scrollTrackRef = useRef<HTMLDivElement>(null)
   const blackCardRef = useRef<HTMLDivElement>(null)
   const signatureRef = useRef<HTMLDivElement>(null)
-
-  const [signatureProgress, setSignatureProgress] = useState(0)
+  const signatureProgress = useMotionValue(0)
 
   useGSAP(() => {
     if (!scrollTrackRef.current || !blackCardRef.current || !signatureRef.current) return
@@ -54,7 +54,7 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
       duration: 0.8,
       ease: "none",
       onUpdate: function () {
-        setSignatureProgress(this.targets()[0].val)
+        signatureProgress.set(this.targets()[0].val)
       }
     }, 0.3)
 
@@ -78,7 +78,7 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
   }, { scope: scrollTrackRef, dependencies: [isLoaded] })
 
   return (
-    <div className="relative w-full">
+    <div id="index" className="relative w-full">
       {/* 1. THE SCROLL TRACK */}
       <div ref={scrollTrackRef} className="relative h-[250vh] w-full bg-[#1a1c11]">
 

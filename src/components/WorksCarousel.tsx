@@ -4,10 +4,12 @@ import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
 import { Marquee } from "./Marquee"
+import { useMobilePerformanceTier } from "@/hooks/use-mobile-performance-tier"
 
 gsap.registerPlugin(ScrollTrigger)
 
 export function WorksCarousel({ isLoaded }: { isLoaded: boolean }) {
+  const lowPower = useMobilePerformanceTier()
   const sectionRef = useRef<HTMLElement>(null)
   const triggerRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
@@ -64,13 +66,13 @@ export function WorksCarousel({ isLoaded }: { isLoaded: boolean }) {
       scrollTrigger: {
         trigger: triggerRef.current,
         pin: true,
-        scrub: 1,
+        scrub: lowPower ? true : 1,
         start: "top top",
         end: () => `+=${scrollAmount}`,
         invalidateOnRefresh: true,
       }
     })
-  }, { scope: sectionRef, dependencies: [isLoaded] })
+  }, { scope: sectionRef, dependencies: [isLoaded, lowPower] })
 
   return (
     <section id="works" ref={sectionRef} className="bg-background overflow-hidden">

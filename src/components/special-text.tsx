@@ -12,6 +12,7 @@ interface SpecialTextProps {
   inView?: boolean;
   once?: boolean;
   ready?: boolean;
+  instant?: boolean;
 }
 
 const RANDOM_CHARS = "_!X$0-+*#";
@@ -32,16 +33,20 @@ export function SpecialText({
   inView = false,
   once = true,
   ready = true,
+  instant = false,
 }: SpecialTextProps) {
   const containerRef = useRef<HTMLSpanElement>(null);
   const isInView = useInView(containerRef, { once, margin: "-100px" });
-  const shouldAnimate = inView ? isInView : true;
+  const shouldAnimate = instant ? false : inView ? isInView : true;
   const [displayText, setDisplayText] = useState<string>(() => "\u00A0".repeat(children.length));
   const hasStartedRef = useRef(false);
   const text = children;
 
   useEffect(() => {
-    // If not ready, not in view, or already started, don't do anything
+    if (instant) {
+      if (ready) setDisplayText(text);
+      return;
+    }
     if (!ready || !shouldAnimate || hasStartedRef.current) return;
 
     let timeout: any;
@@ -106,13 +111,16 @@ export function SpecialText({
       clearTimeout(timeout);
       if (interval) clearInterval(interval);
     };
-  }, [ready, shouldAnimate, text, speed, delay]);
+  }, [instant, ready, shouldAnimate, text, speed, delay]);
 
-  // Reset if text changes
   useEffect(() => {
+    if (instant) {
+      setDisplayText(ready ? text : "\u00A0".repeat(text.length));
+      return;
+    }
     setDisplayText("\u00A0".repeat(text.length));
     hasStartedRef.current = false;
-  }, [text]);
+  }, [text, instant, ready]);
 
   return (
     <span

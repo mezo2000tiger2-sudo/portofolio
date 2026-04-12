@@ -1,7 +1,17 @@
 "use client";
-import { useEffect, useId, useState } from "react";
-import { motion } from "motion/react";
+
+import { useEffect, useState, memo, type FC } from "react";
+import { motion, useTransform, type MotionValue } from "motion/react";
 import opentype from "opentype.js";
+
+function isMotionValueNumber(v: unknown): v is MotionValue<number> {
+  return (
+    typeof v === "object" &&
+    v !== null &&
+    "get" in v &&
+    typeof (v as MotionValue<number>).get === "function"
+  );
+}
 
 interface SignatureProps {
   text?: string;
@@ -10,12 +20,128 @@ interface SignatureProps {
   duration?: number;
   delay?: number;
   className?: string;
-  progress?: number; // External progress control (0 to 1)
+  progress?: number | MotionValue<number>;
   inView?: boolean;
   once?: boolean;
 }
 
-export function Signature({
+function SignaturePathMV({
+  d,
+  color,
+  globalProgress,
+  index,
+  pathCount,
+}: {
+  d: string;
+  color: string;
+  globalProgress: MotionValue<number>;
+  index: number;
+  pathCount: number;
+}) {
+  const charProgressStart = index / pathCount;
+  const charProgressEnd = (index + 1) / pathCount;
+  const charProgress = useTransform(globalProgress, (p) =>
+    Math.max(0, Math.min(1, (p - charProgressStart) / (charProgressEnd - charProgressStart)))
+  );
+  const fillOpacity = useTransform(charProgress, (v) =>
+    v > 0.1 ? (v - 0.1) * 1.1 : 0
+  );
+
+  return (
+    <motion.path
+      d={d}
+      stroke={color}
+      strokeWidth={3}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill={color}
+      initial={false}
+      style={{ pathLength: charProgress, fillOpacity }}
+      vectorEffect="non-scaling-stroke"
+    />
+  );
+}
+
+function SignaturePathNumber({
+  d,
+  color,
+  progress,
+  index,
+  pathCount,
+  duration,
+  delay,
+}: {
+  d: string;
+  color: string;
+  progress: number;
+  index: number;
+  pathCount: number;
+  duration: number;
+  delay: number;
+}) {
+  const charProgressStart = index / pathCount;
+  const charProgressEnd = (index + 1) / pathCount;
+  const charProgress = Math.max(
+    0,
+    Math.min(1, (progress - charProgressStart) / (charProgressEnd - charProgressStart))
+  );
+
+  return (
+    <motion.path
+      d={d}
+      stroke={color}
+      strokeWidth={3}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill={color}
+      initial={{ pathLength: 0, fillOpacity: 0 }}
+      animate={{
+        pathLength: charProgress,
+        fillOpacity: charProgress > 0.1 ? (charProgress - 0.1) * 1.1 : 0,
+      }}
+      transition={{ type: "tween", ease: "linear", duration: 0 }}
+      vectorEffect="non-scaling-stroke"
+    />
+  );
+}
+
+function SignaturePathAuto({
+  d,
+  color,
+  index,
+  pathCount,
+  duration,
+  delay,
+}: {
+  d: string;
+  color: string;
+  index: number;
+  pathCount: number;
+  duration: number;
+  delay: number;
+}) {
+  const segment = duration / pathCount;
+  return (
+    <motion.path
+      d={d}
+      stroke={color}
+      strokeWidth={3}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill={color}
+      initial={{ pathLength: 0, fillOpacity: 0 }}
+      animate={{ pathLength: 1, fillOpacity: 1 }}
+      transition={{
+        duration: segment,
+        delay: delay + index * segment,
+        ease: "easeInOut",
+      }}
+      vectorEffect="non-scaling-stroke"
+    />
+  );
+}
+
+const SignatureInner: FC<SignatureProps> = ({
   text = "Mustafa",
   color = "#000",
   fontSize = 150,
@@ -23,9 +149,7 @@ export function Signature({
   delay = 0,
   className,
   progress,
-  inView = false,
-  once = true,
-}: SignatureProps) {
+}) => {
   const [paths, setPaths] = useState<string[]>([]);
   const [viewBox, setViewBox] = useState({ width: 500, height: 200 });
 
@@ -43,7 +167,9 @@ export function Signature({
           try {
             font = await opentype.load(path);
             break;
-          } catch { continue; }
+          } catch {
+            continue;
+          }
         }
 
         if (!font) throw new Error("Font not found");
@@ -53,12 +179,12 @@ export function Signature({
         const vPadding = fontSize * 0.2;
         let x = hPadding;
         const newPaths: string[] = [];
-        
+
         const ascender = font.ascender * scale;
         const descender = font.descender * scale;
         const fontHeight = ascender - descender;
         const baseline = vPadding + ascender;
-        const totalHeight = fontHeight + (vPadding * 2);
+        const totalHeight = fontHeight + vPadding * 2;
 
         for (const char of text) {
           const glyph = font.charToGlyph(char);
@@ -76,7 +202,8 @@ export function Signature({
     load();
   }, [text, fontSize]);
 
-  const isControlled = progress !== undefined;
+  const mvControlled = isMotionValueNumber(progress);
+  const numberControlled = typeof progress === "number";
 
   return (
     <motion.svg
@@ -90,38 +217,46 @@ export function Signature({
       preserveAspectRatio="xMidYMid meet"
     >
       {paths.map((d, i) => {
-        // Calculate the progress for this specific character
-        // If we have 7 characters, each takes 1/7th of the total progress
-        const charProgressStart = i / paths.length;
-        const charProgressEnd = (i + 1) / paths.length;
-        
-        // Normalize the global progress to this character's 0-1 range
-        const charProgress = isControlled 
-          ? Math.max(0, Math.min(1, (progress - charProgressStart) / (charProgressEnd - charProgressStart)))
-          : 1;
-
+        if (mvControlled) {
+          return (
+            <SignaturePathMV
+              key={i}
+              d={d}
+              color={color}
+              globalProgress={progress}
+              index={i}
+              pathCount={paths.length}
+            />
+          );
+        }
+        if (numberControlled) {
+          return (
+            <SignaturePathNumber
+              key={i}
+              d={d}
+              color={color}
+              progress={progress}
+              index={i}
+              pathCount={paths.length}
+              duration={duration}
+              delay={delay}
+            />
+          );
+        }
         return (
-          <motion.path
+          <SignaturePathAuto
             key={i}
             d={d}
-            stroke={color}
-            strokeWidth={3}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill={color}
-            initial={{ pathLength: 0, fillOpacity: 0 }}
-            animate={{ 
-              pathLength: charProgress,
-              fillOpacity: charProgress > 0.1 ? (charProgress - 0.1) * 1.1 : 0
-            }}
-            transition={isControlled ? { type: "tween", ease: "linear", duration: 0 } : { 
-              duration: duration / paths.length, 
-              delay: delay + (i * (duration / paths.length)), 
-              ease: "easeInOut" 
-            }}
+            color={color}
+            index={i}
+            pathCount={paths.length}
+            duration={duration}
+            delay={delay}
           />
         );
       })}
     </motion.svg>
   );
-}
+};
+
+export const Signature = memo<SignatureProps>(SignatureInner);
