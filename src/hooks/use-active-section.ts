@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 export function useActiveSection(sectionIds: string[]) {
   const [activeSection, setActiveSection] = useState<string>('');
 
+  const sectionIdsString = JSON.stringify(sectionIds);
+
   useEffect(() => {
-    const observers = new Map<string, IntersectionObserver>();
-    
     // Track visibility of each section
     const sectionVisibility = new Map<string, number>();
 
@@ -26,13 +26,13 @@ export function useActiveSection(sectionIds: string[]) {
       });
 
       if (mostVisibleSection) {
-        setActiveSection(mostVisibleSection);
+        setActiveSection((prev) => (prev !== mostVisibleSection ? mostVisibleSection : prev));
       }
     };
 
     const observerOptions = {
       root: null,
-      rootMargin: '-20% 0px -70% 0px', // Adjusted to trigger closer to the top
+      rootMargin: '-20% 0px -70% 0px',
       threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
     };
 
@@ -48,7 +48,8 @@ export function useActiveSection(sectionIds: string[]) {
     return () => {
       observer.disconnect();
     };
-  }, [sectionIds]);
+  }, [sectionIdsString]); 
+
 
   return activeSection;
 }

@@ -1,16 +1,18 @@
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { cn } from "@/lib/utils"
 import { useActiveSection } from "@/hooks/use-active-section"
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const activeSection = useActiveSection(["index", "works", "contact"])
-
-  const navLinks = [
+  
+  const navLinks = useMemo(() => [
     { name: "INDEX", href: "#index", id: "index" },
     { name: "WORKS", href: "#works", id: "works" },
     { name: "CONTACT", href: "#contact", id: "contact" },
-  ]
+  ], [])
+
+  const sectionIds = useMemo(() => navLinks.map(link => link.id), [navLinks])
+  const activeSection = useActiveSection(sectionIds)
 
   return (
     <header className="w-full bg-[#0E0E12] z-50 relative border-b border-[#222] sticky top-0 right-0 left-0">

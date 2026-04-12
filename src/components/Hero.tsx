@@ -20,8 +20,9 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
       scrollTrigger: {
         trigger: manifestoRef.current,
         start: "top 100%",
-        end: "bottom 60%",
+        end: "bottom 40%",
         scrub: 1,
+
       }
     })
 
@@ -58,7 +59,7 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
       y: 50,
       opacity: 0,
       duration: 0.5,
-    }, "-=0.3")
+    }, "-=1")
 
   }, { scope: manifestoRef })
 

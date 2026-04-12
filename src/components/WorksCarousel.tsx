@@ -3,6 +3,7 @@ import { ProjectCard } from "./ProjectCard"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
+import { Marquee } from "./Marquee"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -98,6 +99,7 @@ export function WorksCarousel({ isLoaded }: { isLoaded: boolean }) {
           </div>
         </div>
       </div>
+      <Marquee/>
     </section>
   )
 }
