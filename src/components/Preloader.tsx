@@ -4,12 +4,12 @@ import { useGSAP } from "@gsap/react"
 
 export function Preloader({ onComplete }: { onComplete?: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null)
-  
+
   useGSAP(() => {
     if (!containerRef.current) return;
-    
+
     const columns = containerRef.current.querySelectorAll('.preloader-column');
-    
+
     if (columns.length === 0) {
       onComplete?.();
       return;
@@ -34,8 +34,8 @@ export function Preloader({ onComplete }: { onComplete?: () => void }) {
   }, { scope: containerRef })
 
   return (
-    <div 
-      ref={containerRef} 
+    <div
+      ref={containerRef}
       className="fixed inset-0 z-[100] flex pointer-events-none"
     >
       {[...Array(8)].map((_, i) => (

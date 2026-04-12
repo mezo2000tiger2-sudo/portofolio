@@ -99,7 +99,7 @@ export function WorksCarousel({ isLoaded }: { isLoaded: boolean }) {
           </div>
         </div>
       </div>
-      <Marquee/>
+      <Marquee />
     </section>
   )
 }

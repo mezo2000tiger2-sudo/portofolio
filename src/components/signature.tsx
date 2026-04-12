@@ -105,14 +105,14 @@ export function Signature({
             key={i}
             d={d}
             stroke={color}
-            strokeWidth={2}
+            strokeWidth={3}
             strokeLinecap="round"
             strokeLinejoin="round"
             fill={color}
             initial={{ pathLength: 0, fillOpacity: 0 }}
             animate={{ 
               pathLength: charProgress,
-              fillOpacity: charProgress > 0.6 ? (charProgress - 0.6) * 2.5 : 0
+              fillOpacity: charProgress > 0.1 ? (charProgress - 0.1) * 1.1 : 0
             }}
             transition={isControlled ? { type: "tween", ease: "linear", duration: 0 } : { 
               duration: duration / paths.length, 

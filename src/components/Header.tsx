@@ -4,7 +4,7 @@ import { useActiveSection } from "@/hooks/use-active-section"
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  
+
   const navLinks = useMemo(() => [
     { name: "INDEX", href: "#index", id: "index" },
     { name: "WORKS", href: "#works", id: "works" },
@@ -43,7 +43,7 @@ export function Header() {
               </a>
             ))}
           </nav>
-          
+
           {/* Logo icon far right */}
           <button className="w-8 h-8 rounded shrink-0 flex items-center justify-center opacity-80 hover:opacity-100 transition-opacity ml-auto">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#D4FF5A" className="size-6">
@@ -53,7 +53,7 @@ export function Header() {
         </div>
 
         {/* Mobile Toggle */}
-        <button 
+        <button
           className="md:hidden w-8 h-8 flex flex-col justify-center gap-1.5 text-white"
           onClick={() => setIsOpen(!isOpen)}
         >

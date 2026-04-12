@@ -13,7 +13,7 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
   const scrollTrackRef = useRef<HTMLDivElement>(null)
   const blackCardRef = useRef<HTMLDivElement>(null)
   const signatureRef = useRef<HTMLDivElement>(null)
-  
+
   const [signatureProgress, setSignatureProgress] = useState(0)
 
   useGSAP(() => {
@@ -53,7 +53,7 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
       val: 1,
       duration: 0.8,
       ease: "none",
-      onUpdate: function() {
+      onUpdate: function () {
         setSignatureProgress(this.targets()[0].val)
       }
     }, 0.3)
@@ -69,10 +69,10 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
           scrub: 1,
         }
       })
-      .fromTo(lines, 
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.1, ease: "power2.out" }
-      )
+        .fromTo(lines,
+          { y: 50, opacity: 0, x: -50 },
+          { y: 0, x: 0, opacity: 1, stagger: 0.1, ease: "power2.out" }
+        )
     }
 
   }, { scope: scrollTrackRef, dependencies: [isLoaded] })
@@ -81,18 +81,18 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
     <div className="relative w-full">
       {/* 1. THE SCROLL TRACK */}
       <div ref={scrollTrackRef} className="relative h-[250vh] w-full bg-[#1a1c11]">
-        
+
         {/* 2. THE STICKY VIEWPORT */}
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
-          
+
           {/* THE OLIVE BACKGROUND */}
           <div className="absolute inset-0 z-0 pointer-events-none opacity-25">
             <svg width="100%" height="100%" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
               <g fill="none" stroke="#D4FF5A" strokeWidth="0.5">
                 {[...Array(15)].map((_, i) => (
-                  <path 
-                    key={i} 
-                    d={`M-100 ${50 + i * 50} Q 200 ${20 + i * 30}, 400 ${50 + i * 50} T 900 ${50 + i * 50}`} 
+                  <path
+                    key={i}
+                    d={`M-100 ${50 + i * 50} Q 200 ${20 + i * 30}, 400 ${50 + i * 50} T 900 ${50 + i * 50}`}
                   />
                 ))}
               </g>
@@ -101,7 +101,7 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
           </div>
 
           {/* THE BLACK INTRO CARD - Opacity removed from animation */}
-          <div 
+          <div
             ref={blackCardRef}
             className="absolute inset-0 z-10 bg-[#050505] flex flex-col items-center justify-center shadow-2xl origin-center"
           >
@@ -119,15 +119,15 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
           </div>
 
           {/* THE SIGNATURE - Now using the 'progress' prop */}
-          <div 
+          <div
             ref={signatureRef}
             className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none opacity-0"
           >
             <div className="w-[90vw] md:w-[70vw] h-[50vh] flex items-center justify-center">
-              <Signature 
-                text="Mustafa" 
-                color="#D4FF5A" 
-                fontSize={400} 
+              <Signature
+                text="Mustafa"
+                color="#D4FF5A"
+                fontSize={400}
                 className="w-full h-full drop-shadow-[0_0_40px_rgba(212,255,90,0.5)]"
                 progress={signatureProgress}
               />
@@ -139,7 +139,7 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
       {/* 3. SUBSEQUENT CONTENT */}
       <div className="relative z-30 bg-[#050505] -mt-[1px]">
         <Marquee />
-        
+
         <div ref={manifestoRef} className="bg-[#0A0A0F] border-t border-[#222]">
           <div className="px-6 py-20 md:py-32 flex flex-col xl:flex-row justify-between items-start gap-12 lg:gap-16 lg:pl-16">
             <div className="w-full">
