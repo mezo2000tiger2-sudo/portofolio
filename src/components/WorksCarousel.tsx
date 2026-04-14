@@ -60,8 +60,8 @@ export function WorksCarousel() {
         trigger: section,
         pin: true,
         scrub: lowPower ? true : 0.6,
-        start: "top top",
-        end: () => `+=${scrollDistance + window.innerHeight}`, // Added extra scroll length for the buffer
+        start: "top -15%", // Section top goes 15% off-screen before pinning/starting
+        end: () => `+=${scrollDistance + window.innerHeight}`, 
         invalidateOnRefresh: true,
         anticipatePin: 0,
         pinSpacing: true,
@@ -70,10 +70,7 @@ export function WorksCarousel() {
       }
     })
 
-    // Add a small pause (buffer) before the horizontal movement starts
-    tl.to({}, { duration: 0.2 }) 
-
-    // The actual horizontal movement
+    // The actual horizontal movement - starting immediately when pinned
     tl.to(track, {
       x: () => -scrollDistance,
       ease: "none",

@@ -7,6 +7,10 @@ import { WorksCarousel } from "./components/WorksCarousel"
 import { Footer } from "./components/Footer"
 import { Preloader } from "./components/Preloader"
 import { cn } from "@/lib/utils"
+import { useGSAP } from "@gsap/react"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import gsap from "gsap"
+gsap.registerPlugin(ScrollTrigger)
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -19,6 +23,9 @@ function App() {
     }
     return () => document.body.classList.remove('overflow-hidden')
   }, [isLoaded])
+  // useGSAP(()=>{
+  //   gsap.set('body', {scrollTrigger: {fastScrollEnd: true}})
+  // })
 
   return (
     <div className="flex w-full bg-background text-foreground font-sans min-h-screen">
