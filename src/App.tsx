@@ -22,16 +22,14 @@ function App() {
 
   return (
     <div className="flex w-full bg-background text-foreground font-sans min-h-screen">
-      <Preloader onComplete={() => setIsLoaded(true)} />
-      <Sidebar />
+     <Preloader onComplete={() => setIsLoaded(true)} />
+     <Sidebar />
       <div className="flex-1 flex flex-col min-w-0 overflow-x-clip">
         <Header />
         <main>
           <Hero isLoaded={isLoaded} />
-          <div className={cn("transition-opacity duration-500", !isLoaded ? "opacity-0 pointer-events-none" : "opacity-100")}>
-            <WorksCarousel isLoaded={isLoaded} />
-            <Footer />
-          </div>
+          <WorksCarousel />
+          <Footer />
         </main>
       </div>
     </div>

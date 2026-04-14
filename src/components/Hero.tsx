@@ -6,6 +6,7 @@ import { Signature } from "./signature"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useMobilePerformanceTier } from "@/hooks/use-mobile-performance-tier"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -15,6 +16,7 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
   const blackCardRef = useRef<HTMLDivElement>(null)
   const signatureRef = useRef<HTMLDivElement>(null)
   const signatureProgress = useMotionValue(0)
+  const isMobile = useMobilePerformanceTier()
 
   useGSAP(() => {
     if (!scrollTrackRef.current || !blackCardRef.current || !signatureRef.current) return
@@ -117,7 +119,6 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
               </SpecialText>
             </div>
           </div>
-
           {/* THE SIGNATURE - Now using the 'progress' prop */}
           <div
             ref={signatureRef}
@@ -128,22 +129,24 @@ export function Hero({ isLoaded }: { isLoaded: boolean }) {
                 text="Mustafa"
                 color="#D4FF5A"
                 fontSize={400}
-                className="w-full h-full drop-shadow-[0_0_40px_rgba(212,255,90,0.5)]"
+                className={`w-full h-full ${
+                  isMobile 
+                    ? "drop-shadow-[0_0_15px_rgba(212,255,90,0.3)]" 
+                    : "drop-shadow-[0_0_40px_rgba(212,255,90,0.5)]"
+                }`}
                 progress={signatureProgress}
               />
             </div>
           </div>
         </div>
       </div>
-
       {/* 3. SUBSEQUENT CONTENT */}
       <div className="relative z-30 bg-[#050505] -mt-[1px]">
         <Marquee />
-
         <div ref={manifestoRef} className="bg-[#0A0A0F] border-t border-[#222]">
-          <div className="px-6 py-20 md:py-32 flex flex-col xl:flex-row justify-between items-start gap-12 lg:gap-16 lg:pl-16">
+          <div className="px-2 md:px-6 py-20 md:py-32 flex flex-col xl:flex-row justify-between items-start gap-12 lg:gap-16 lg:pl-16">
             <div className="w-full">
-              <h3 className="font-heading font-extrabold text-5xl sm:text-6xl md:text-8xl lg:text-[7rem] xl:text-[8rem] 2xl:text-[9rem] leading-[0.85] tracking-tighter text-white uppercase break-words w-full">
+              <h3 className="font-heading font-extrabold text-4xl sm:text-6xl md:text-8xl lg:text-[7rem] xl:text-[8rem] 2xl:text-[9rem] leading-[0.85] tracking-tighter text-white uppercase break-words w-full">
                 <p className="manifesto-line mb-2">I BUILD <span className="text-[#D4FF5A]">HIGH-</span></p>
                 <p className="manifesto-line mb-2"><span className="text-[#D4FF5A]">PERFORMANCE</span></p>
                 <p className="manifesto-line mb-2">WEB APPLICATIONS</p>
