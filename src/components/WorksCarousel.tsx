@@ -122,8 +122,8 @@ export function WorksCarousel() {
         </div>
         
       </div>
-      <div className=" w-full flex items-center justify-center progressHolder">
-  <div className="relative w-[400px] h-[8px] bg-white/10 rounded-full overflow-hidden progressBarBG">
+      <div className=" w-full flex items-center justify-center progressHolder px-6">
+  <div className="relative w-full max-w-[400px] h-[8px] bg-white/10 rounded-full overflow-hidden progressBarBG">
     <div className="absolute top-0 left-0 w-full h-full bg-[#d4ff33] shadow-[0_0_15px_#d4ff33] origin-left scale-x-0 progressBar"></div>
   </div>
 </div>
