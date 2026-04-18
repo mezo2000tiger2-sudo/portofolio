@@ -60,7 +60,7 @@ export function WorksCarousel() {
         trigger: section,
         pin: true,
         scrub: lowPower ? true : 0.6,
-        start: "top -15%", // Section top goes 15% off-screen before pinning/starting
+        start: "top -20%", // Section top goes 15% off-screen before pinning/starting
         end: () => `+=${scrollDistance + window.innerHeight}`, 
         invalidateOnRefresh: true,
         anticipatePin: 0,
@@ -76,6 +76,11 @@ export function WorksCarousel() {
       ease: "none",
       duration: 1
     })
+    tl.to('.progressBar', {
+      scaleX: 1,
+      duration: 1,
+      ease: "none"
+    } , '<')
 
     // Add a small pause after the movement finishes
     tl.to({}, { duration: 0.1 })
@@ -97,7 +102,7 @@ export function WorksCarousel() {
         </h2>
       </div>
 
-      <div className="w-full flex pt-12 pb-32 overflow-visible items-center flex-1">
+      <div className="w-full flex pt-12 pb-12 overflow-visible items-center flex-1">
         <div 
           ref={trackRef} 
           className="flex gap-12 pl-6 md:pl-[10%]" 
@@ -113,8 +118,15 @@ export function WorksCarousel() {
               imageText={project.imageText}
             />
           ))}
+          
         </div>
+        
       </div>
+      <div className=" w-full flex items-center justify-center progressHolder px-6">
+  <div className="relative w-full max-w-[400px] h-[8px] bg-white/10 rounded-full overflow-hidden progressBarBG">
+    <div className="absolute top-0 left-0 w-full h-full bg-[#d4ff33] shadow-[0_0_15px_#d4ff33] origin-left scale-x-0 progressBar"></div>
+  </div>
+</div>
       <Marquee />
     </section>
   )
