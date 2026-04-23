@@ -4,6 +4,7 @@ import { Sidebar } from "./components/Sidebar"
 import { Header } from "./components/Header"
 import { Hero } from "./components/Hero"
 import { WorksCarousel } from "./components/WorksCarousel"
+import { CapabilitiesSection } from "./components/CapabilitiesSection"
 import { Footer } from "./components/Footer"
 import { Preloader } from "./components/Preloader"
 import { cn } from "@/lib/utils"
@@ -35,6 +36,7 @@ function App() {
         <Header />
         <main>
           <Hero isLoaded={isLoaded} />
+          <CapabilitiesSection />
           <WorksCarousel />
           <Footer />
         </main>
