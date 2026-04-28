@@ -71,11 +71,7 @@ const GsapIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 )
 
-const ZustandIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <path d="M12.115 12.333c1.022 0 1.851-.828 1.851-1.85 0-1.022-.829-1.851-1.851-1.851-1.022 0-1.85.829-1.85 1.85 0 1.023.828 1.851 1.85 1.851zM11 20.37c-3.16-.4-5.63-3.12-5.63-6.42 0-3.3 2.47-6.02 5.63-6.42V2.12c-6.12.44-10.95 5.54-10.95 11.83 0 6.29 4.83 11.39 10.95 11.83v-5.41zm2-12.84c3.16.4 5.63 3.12 5.63 6.42 0 3.3-2.47 6.02-5.63 6.42v5.41c6.12-.44 10.95-5.54 10.95-11.83 0-6.29-4.83-11.39-10.95-11.83v5.41z"/>
-  </svg>
-)
+
 
 const NextAuthIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -102,7 +98,6 @@ const TOOLS_DATA: ToolData[] = [
   { name: "Next.js", icon: NextIcon, description: "App Router & SSR Framework", color: "#FFFFFF" },
   { name: "shadcn/ui", icon: ShadcnIcon, description: "Accessible Component Primitives", color: "#E2E2F0" },
   { name: "GSAP", icon: GsapIcon, description: "High-performance Web Motion", color: "#88CE02" },
-  { name: "Zustand", icon: ZustandIcon, description: "Lightweight State Management", color: "#EBB035" },
   { name: "NextAuth", icon: NextAuthIcon, description: "Secure Session Management", color: "#B197FC" },
 ]
 
