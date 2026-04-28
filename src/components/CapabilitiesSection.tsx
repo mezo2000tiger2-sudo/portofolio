@@ -93,7 +93,7 @@ const TOOLS_DATA: ToolData[] = [
   { name: "HTML5", icon: HtmlIcon, description: "Semantic Structure & SEO", color: "#E34F26" },
   { name: "CSS3", icon: CssIcon, description: "Advanced Layout & Motion", color: "#1572B6" },
   { name: "JavaScript", icon: JsIcon, description: "Dynamic Logical Architecture", color: "#F7DF1E" },
-  { name: "Tailwind CSS", icon: TailwindIcon, description: "Utility-first Styling Engine", color: "#06B6D4" },
+  { name: "Tailwind", icon: TailwindIcon, description: "Utility-first Styling Engine", color: "#06B6D4" },
   { name: "React", icon: ReactIcon, description: "Component-based UI Architecture", color: "#61DAFB" },
   { name: "Next.js", icon: NextIcon, description: "App Router & SSR Framework", color: "#FFFFFF" },
   { name: "shadcn/ui", icon: ShadcnIcon, description: "Accessible Component Primitives", color: "#E2E2F0" },
@@ -199,7 +199,7 @@ export function CapabilitiesSection() {
         <div className="relative max-w-5xl mx-auto">
           
           {/* Central Vertical Line */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] hidden md:block">
+          <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px]">
             <div className="w-full h-full bg-white/5" />
             <div 
               ref={lineRef}
@@ -207,14 +207,14 @@ export function CapabilitiesSection() {
             />
           </div>
 
-          <div className="space-y-48 md:space-y-0 relative z-10">
+          <div className="space-y-24 md:space-y-0 relative z-10">
             {TOOLS_DATA.map((tool, idx) => {
               const isEven = idx % 2 === 0
               return (
                 <div
                   key={idx}
                   className={cn(
-                    "flex flex-col md:flex-row items-center justify-between w-full md:min-h-[500px]",
+                    "flex flex-col md:flex-row items-start md:items-center justify-between w-full md:min-h-[500px]",
                     isEven ? "md:flex-row-reverse" : ""
                   )}
                 >
@@ -224,17 +224,17 @@ export function CapabilitiesSection() {
                   {/* Dot on Line */}
                   <div 
                     ref={el => { dotsRef.current[idx] = el }}
-                    className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#050505] border-2 z-20 transition-all duration-500 group-hover:scale-150" 
+                    className="flex absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 md:w-4 md:h-4 rounded-full bg-[#050505] border-2 z-20 transition-all duration-500 group-hover:scale-150" 
                     style={{ borderColor: tool.color, boxShadow: `0 0 10px ${tool.color}` }}
                   />
 
                   {/* Card Content */}
                   <div
                     ref={el => { cardsRef.current[idx] = el }}
-                    className="w-full md:w-[45%] flex flex-col items-center md:items-start group perspective-1000"
+                    className="w-full md:w-[45%] flex flex-col items-start group perspective-1000 pl-12 md:pl-0"
                   >
                     <div className={cn(
-                      "w-full border bg-[#0A0A0F]/60 backdrop-blur-2xl p-12 rounded-[3.5rem] transition-all duration-700 shadow-[0_40px_80px_rgba(0,0,0,0.6)] flex flex-col items-center md:items-start gap-8 group-hover:-translate-y-6 group-hover:shadow-[0_60px_100px_rgba(0,0,0,0.8)]",
+                      "w-full border bg-[#0A0A0F]/60 backdrop-blur-2xl p-6 md:p-12 rounded-[2rem] md:rounded-[3.5rem] transition-all duration-700 shadow-[0_40px_80px_rgba(0,0,0,0.6)] flex flex-col items-start gap-6 md:gap-8 group-hover:-translate-y-6 group-hover:shadow-[0_60px_100px_rgba(0,0,0,0.8)]",
                       isEven ? "md:items-end md:text-right" : ""
                     )}
                     style={{ borderColor: 'rgba(255,255,255,0.05)' }}
@@ -243,24 +243,24 @@ export function CapabilitiesSection() {
                       {/* Tech Icon with Brand Glow */}
                       <div className="relative">
                         <div 
-                          className="absolute inset-0 blur-[50px] rounded-full scale-0 group-hover:scale-175 transition-transform duration-1000 opacity-0 group-hover:opacity-30" 
+                          className="absolute inset-0 blur-[30px] md:blur-[50px] rounded-full scale-0 group-hover:scale-175 transition-transform duration-1000 opacity-0 group-hover:opacity-30" 
                           style={{ backgroundColor: tool.color }}
                         />
                         <tool.icon 
-                          className="w-16 h-16 md:w-24 md:h-24 transition-all duration-700 relative z-10 drop-shadow-2xl" 
+                          className="w-12 h-12 md:w-24 md:h-24 transition-all duration-700 relative z-10 drop-shadow-2xl" 
                           style={{ color: tool.color }}
                         />
                       </div>
 
-                      <div className="space-y-6 w-full">
+                      <div className="space-y-4 md:space-y-6 w-full">
                         <div className={cn(
-                          "flex items-center gap-4",
+                          "flex items-center gap-3 md:gap-4",
                           isEven ? "md:flex-row-reverse" : ""
                         )}>
-                           <span className="font-mono text-[10px] opacity-30 font-bold">
+                           <span className="font-mono text-[8px] md:text-[10px] opacity-30 font-bold">
                             {String(idx + 1).padStart(2, '0')}
                           </span>
-                          <h3 className="font-mono text-3xl md:text-5xl tracking-tight uppercase font-black text-white transition-all duration-500 group-hover:tracking-widest"
+                          <h3 className="font-mono text-2xl md:text-5xl tracking-tight uppercase font-black text-white transition-all duration-500 group-hover:tracking-widest"
                               style={{ color: tool.name === 'Next.js' || tool.name === 'shadcn/ui' || tool.name === 'JavaScript' ? 'white' : undefined }}
                           >
                             {tool.name}
@@ -269,11 +269,11 @@ export function CapabilitiesSection() {
                         <div 
                           className={cn(
                             "h-[2px] transition-all duration-1000 group-hover:w-full",
-                            isEven ? "w-12 ml-auto" : "w-12"
+                            isEven ? "w-8 md:w-12 ml-auto" : "w-8 md:w-12"
                           )}
                           style={{ backgroundColor: tool.color, boxShadow: `0 0 10px ${tool.color}` }}
                         />
-                        <p className="text-xs md:text-sm text-white/30 font-mono tracking-[0.2em] leading-relaxed uppercase group-hover:text-white/70 transition-all duration-500 max-w-[320px]">
+                        <p className="text-[10px] md:text-sm text-white/30 font-mono tracking-[0.2em] leading-relaxed uppercase group-hover:text-white/70 transition-all duration-500 max-w-[320px]">
                           {tool.description}
                         </p>
                       </div>
