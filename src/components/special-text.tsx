@@ -49,8 +49,8 @@ export function SpecialText({
     }
     if (!ready || !shouldAnimate || hasStartedRef.current) return;
 
-    let timeout: NodeJS.Timeout | undefined;
-    let interval: NodeJS.Timeout | undefined;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    let interval: ReturnType<typeof setInterval> | undefined;
 
     const start = () => {
       hasStartedRef.current = true;
