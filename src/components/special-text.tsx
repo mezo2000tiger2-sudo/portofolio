@@ -49,8 +49,8 @@ export function SpecialText({
     }
     if (!ready || !shouldAnimate || hasStartedRef.current) return;
 
-    let timeout: any;
-    let interval: any;
+    let timeout: NodeJS.Timeout | undefined;
+    let interval: NodeJS.Timeout | undefined;
 
     const start = () => {
       hasStartedRef.current = true;

@@ -7,11 +7,6 @@ import { WorksCarousel } from "./components/WorksCarousel"
 import { CapabilitiesSection } from "./components/CapabilitiesSection"
 import { Footer } from "./components/Footer"
 import { Preloader } from "./components/Preloader"
-import { cn } from "@/lib/utils"
-import { useGSAP } from "@gsap/react"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import gsap from "gsap"
-gsap.registerPlugin(ScrollTrigger)
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)

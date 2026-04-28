@@ -60,10 +60,10 @@ export function WorksCarousel() {
         trigger: section,
         pin: true,
         scrub: lowPower ? true : 0.6,
-        start: "top -20%", // Section top goes 15% off-screen before pinning/starting
+        start: "top top", 
         end: () => `+=${scrollDistance + window.innerHeight}`, 
         invalidateOnRefresh: true,
-        anticipatePin: 0,
+        anticipatePin: 1,
         pinSpacing: true,
         fastScrollEnd: true,
         preventOverlaps: true,
