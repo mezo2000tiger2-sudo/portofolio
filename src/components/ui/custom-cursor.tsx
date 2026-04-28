@@ -15,13 +15,13 @@ export function CustomCursor() {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  cursorModeSetter = setMode;
-
   const springConfig = { damping: 25, stiffness: 700 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
   useEffect(() => {
+    cursorModeSetter = setMode;
+
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
@@ -31,8 +31,9 @@ export function CustomCursor() {
 
     return () => {
       window.removeEventListener("mousemove", moveCursor);
+      cursorModeSetter = () => {}; // Reset on unmount
     };
-  }, []);
+  }, [cursorX, cursorY]);
 
   return (
     <>

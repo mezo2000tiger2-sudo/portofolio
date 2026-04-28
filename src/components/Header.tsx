@@ -16,6 +16,7 @@ export function Header() {
 
   const navLinks = useMemo(() => [
     { name: "INDEX", href: "#index", id: "index" },
+    { name: "CAPABILITIES", href: "#capabilities", id: "capabilities" },
     { name: "WORKS", href: "#works", id: "works" },
     { name: "CONTACT", href: "#contact", id: "contact" },
   ], [])
