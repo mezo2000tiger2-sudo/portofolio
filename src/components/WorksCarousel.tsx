@@ -60,7 +60,7 @@ export function WorksCarousel() {
         trigger: section,
         pin: true,
         scrub: lowPower ? true : 0.6,
-        start: "top -15%", 
+        start: "top -20%", 
         end: () => `+=${scrollDistance + window.innerHeight}`, 
         invalidateOnRefresh: true,
         anticipatePin: 1,
