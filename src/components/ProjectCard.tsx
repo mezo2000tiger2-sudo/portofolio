@@ -22,6 +22,8 @@ function ProjectCardInner({ title, utils, link, img, description, category, year
           <img 
             src={img} 
             alt={title} 
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover opacity-60 transition-opacity duration-500 group-hover:opacity-80 scale-105 group-hover:scale-100 transition-transform duration-700"
           />
         ) : (
