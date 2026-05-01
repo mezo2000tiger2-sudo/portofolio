@@ -11,32 +11,47 @@ gsap.registerPlugin(ScrollTrigger)
 const PROJECTS = [
   {
     title: "NEURAL_INTERFACE_V1",
+    utils: "Next.js, Tailwind CSS, Framer Motion",
+    link: "https://github.com",
+    img: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2000&auto=format&fit=crop",
+    description: "A high-performance neural interface dashboard with real-time data visualization and biometric tracking.",
     category: "2024",
-    year: "Global",
     imageText: "N_V1"
   },
   {
     title: "SYSTEM_ORBIT_OS",
+    utils: "React, GSAP, WebGL",
+    link: "https://github.com",
+    img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop",
+    description: "Next-generation operating system interface focused on spatial computing and orbit-based navigation.",
     category: "Product",
-    year: "Application",
     imageText: "ORBIT"
   },
   {
     title: "QUANTUM_REDUX",
+    utils: "TypeScript, Three.js, Node.js",
+    link: "https://github.com",
+    img: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2000&auto=format&fit=crop",
+    description: "Quantum-safe encryption platform with a decentralized architecture and visual security nodes.",
     category: "Design",
-    year: "2023",
     imageText: "QR"
   },
   {
     title: "CORE_ARCHITECTURE",
+    utils: "Rust, WebAssembly, React",
+    link: "https://github.com",
+    img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?q=80&w=2000&auto=format&fit=crop",
+    description: "Ultra-scalable core architecture for distributed systems with native-speed execution in the browser.",
     category: "Engineering",
-    year: "2025",
     imageText: "CORE"
   },
   {
     title: "FLUX_TERMINAL",
+    utils: "Next Auth, PostgreSQL, Prisma",
+    link: "https://github.com",
+    img: "https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2000&auto=format&fit=crop",
+    description: "Command-line inspired web terminal for managing cloud infrastructure with secure authentication.",
     category: "Utility",
-    year: "2024",
     imageText: "FLUX"
   }
 ]
@@ -100,17 +115,14 @@ export function WorksCarousel() {
       <div className="w-full flex pt-12 pb-32 overflow-visible items-center flex-1">
         <div 
           ref={trackRef} 
-          className="flex gap-12 pl-6 md:pl-[10%]" 
+          className="flex gap-12 pl-6 md:pl-[10%] pr-6 md:pr-[10%]" 
           id="works-carousel-track"
           style={{ willChange: "transform" }}
         >
           {PROJECTS.map((project, index) => (
             <ProjectCard
               key={index}
-              title={project.title}
-              category={project.category}
-              year={project.year}
-              imageText={project.imageText}
+              {...project}
             />
           ))}
         </div>
