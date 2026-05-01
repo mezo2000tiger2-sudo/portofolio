@@ -4,13 +4,9 @@ import { Sidebar } from "./components/Sidebar"
 import { Header } from "./components/Header"
 import { Hero } from "./components/Hero"
 import { WorksCarousel } from "./components/WorksCarousel"
+import { CapabilitiesSection } from "./components/CapabilitiesSection"
 import { Footer } from "./components/Footer"
 import { Preloader } from "./components/Preloader"
-import { cn } from "@/lib/utils"
-import { useGSAP } from "@gsap/react"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import gsap from "gsap"
-gsap.registerPlugin(ScrollTrigger)
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -35,6 +31,7 @@ function App() {
         <Header />
         <main>
           <Hero isLoaded={isLoaded} />
+          <CapabilitiesSection />
           <WorksCarousel />
           <Footer />
         </main>

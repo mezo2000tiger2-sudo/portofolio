@@ -48,7 +48,7 @@ export function useActiveSection(sectionIds: string[]) {
     return () => {
       observer.disconnect();
     };
-  }, [sectionIdsString]); 
+  }, [sectionIdsString, sectionIds]); 
 
 
   return activeSection;
