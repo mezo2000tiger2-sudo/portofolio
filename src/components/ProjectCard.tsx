@@ -7,11 +7,10 @@ export interface ProjectCardProps {
   img?: string
   description?: string
   category?: string
-  year?: string
   imageText?: string
 }
 
-function ProjectCardInner({ title, utils, link, img, description, category, year, imageText }: ProjectCardProps) {
+function ProjectCardInner({ title, utils, link, img, description, category, imageText }: ProjectCardProps) {
   const techTags = utils.split(",").map((tag) => tag.trim()).filter(Boolean)
 
   const CardContent = (
@@ -99,7 +98,7 @@ function ProjectCardInner({ title, utils, link, img, description, category, year
 
   if (link) {
     return (
-      <a href={link} target="_blank" rel="noopener noreferrer" className="block outline-none">
+      <a href={link} target="_blank" rel="noopener noreferrer" className="block outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-black transition-shadow duration-300">
         {CardContent}
       </a>
     )

@@ -51,7 +51,7 @@ const PROJECTS = [
     link: "https://mezo2000tiger2-sudo.github.io/mealify/",
     img: mealifyImg,
     description: "A modern restaurant website featuring a wide range of delicious meals and interactive menu features.",
-    category: "2024",
+    category: "Restaurant",
     imageText: "MEALIFY"
   },
   {
