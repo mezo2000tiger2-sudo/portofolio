@@ -6,54 +6,63 @@ import { useGSAP } from "@gsap/react"
 import { Marquee } from "./Marquee"
 import { useMobilePerformanceTier } from "@/hooks/use-mobile-performance-tier"
 
+// Project Images
+import mealifyImg from "../../public/mealify.png"
+import danielsImg from "../../public/daniels.png"
+import dashboardImg from "../../public/dashboard.png"
+import ecommerceImg from "../../public/E-commerce.png"
+import socialAppImg from "../../public/social-app.png"
+
 gsap.registerPlugin(ScrollTrigger)
 
 const PROJECTS = [
+  
+  
   {
-    title: "NEURAL_INTERFACE_V1",
-    utils: "Next.js, Tailwind CSS, Framer Motion",
-    link: "https://github.com",
-    img: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2000&auto=format&fit=crop",
-    description: "A high-performance neural interface dashboard with real-time data visualization and biometric tracking.",
+    title: "E-commerce",
+    utils: "Next.js, TanStack Query, Tailwind",
+    link: "https://freshcart-mustafa.vercel.app/",
+    img: ecommerceImg,
+    description: "A full-featured online shopping platform with product filtering, cart management, and secure checkout.",
+    category: "Store",
+    imageText: "SHOP"
+  },
+  {
+    title: "Social App",
+    utils: "Next.js, TanStack Query, Tailwind",
+    link: "https://next-social-app-one.vercel.app/",
+    img: socialAppImg,
+    description: "A dynamic social media platform connecting users through real-time updates and interactive content.",
+    category: "Social",
+    imageText: "SOCIAL"
+  },
+  {
+    title: "Portfolio Dashboard",
+    utils: "Next.js, Recharts, Tailwind, Shadcn",
+    link: "https://portofolio-dashboard-eight.vercel.app/",
+    img: dashboardImg,
+    description: "A comprehensive administrative dashboard for tracking portfolio metrics and project performance.",
+    category: "App",
+    imageText: "DASHBOARD"
+  },
+  {
+    title: "Mealify",
+    utils: "HTML, CSS, Bootstrap",
+    link: "https://mezo2000tiger2-sudo.github.io/mealify/",
+    img: mealifyImg,
+    description: "A modern restaurant website featuring a wide range of delicious meals and interactive menu features.",
     category: "2024",
-    imageText: "N_V1"
+    imageText: "MEALIFY"
   },
   {
-    title: "SYSTEM_ORBIT_OS",
-    utils: "React, GSAP, WebGL",
-    link: "https://github.com",
-    img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop",
-    description: "Next-generation operating system interface focused on spatial computing and orbit-based navigation.",
-    category: "Product",
-    imageText: "ORBIT"
+    title: "Daniels",
+    utils: "Bootstrap, HTML, CSS",
+    link: "https://mezo2000tiger2-sudo.github.io/dainels/",
+    img: danielsImg,
+    description: "A professional personal portfolio showcase for showcasing photography and creative projects.",
+    category: "Portfolio",
+    imageText: "DANIELS"
   },
-  {
-    title: "QUANTUM_REDUX",
-    utils: "TypeScript, Three.js, Node.js",
-    link: "https://github.com",
-    img: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2000&auto=format&fit=crop",
-    description: "Quantum-safe encryption platform with a decentralized architecture and visual security nodes.",
-    category: "Design",
-    imageText: "QR"
-  },
-  {
-    title: "CORE_ARCHITECTURE",
-    utils: "Rust, WebAssembly, React",
-    link: "https://github.com",
-    img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?q=80&w=2000&auto=format&fit=crop",
-    description: "Ultra-scalable core architecture for distributed systems with native-speed execution in the browser.",
-    category: "Engineering",
-    imageText: "CORE"
-  },
-  {
-    title: "FLUX_TERMINAL",
-    utils: "Next Auth, PostgreSQL, Prisma",
-    link: "https://github.com",
-    img: "https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2000&auto=format&fit=crop",
-    description: "Command-line inspired web terminal for managing cloud infrastructure with secure authentication.",
-    category: "Utility",
-    imageText: "FLUX"
-  }
 ]
 
 export function WorksCarousel() {
