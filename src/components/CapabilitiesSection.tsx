@@ -110,87 +110,98 @@ export function CapabilitiesSection() {
   useGSAP(() => {
     if (!containerRef.current || !lineRef.current) return
 
-    // Animate central line growth
-    gsap.fromTo(lineRef.current, 
-      { scaleY: 0 },
-      { 
-        scaleY: 1, 
-        ease: "none",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 10%",
-          end: "bottom 90%",
-          scrub: true
-        }
-      }
-    )
+    const mm = gsap.matchMedia()
 
-    cardsRef.current.forEach((card, i) => {
-      if (!card) return
-      const isEven = i % 2 === 0
-      
-      gsap.fromTo(card, 
+    mm.add({
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)"
+    }, (context) => {
+      const { isDesktop } = context.conditions!
+
+      // Animate central line growth - Keep scrub as it's simple
+      gsap.fromTo(lineRef.current, 
+        { scaleY: 0 },
         { 
-          opacity: 0, 
-          x: isEven ? -150 : 150,
-          rotateY: isEven ? 25 : -25,
-          scale: 0.8,
-          skewX: isEven ? 5 : -5
-        },
-        {
-          opacity: 1, 
-          x: 0,
-          rotateY: 0,
-          scale: 1,
-          skewX: 0,
-          duration: 1.5,
-          ease: "expo.out",
+          scaleY: 1, 
+          ease: "none",
           scrollTrigger: {
-            trigger: card,
-            start: "top 95%",
-            end: "top 50%",
-            scrub: 1.5,
-            toggleActions: "play none none reverse",
+            trigger: containerRef.current,
+            start: "top 10%",
+            end: "bottom 90%",
+            scrub: true
           }
         }
       )
-    })
 
-    dotsRef.current.forEach((dot) => {
-      if (!dot) return
-      gsap.fromTo(dot, 
-        { scale: 0, opacity: 0 },
-        { 
-          scale: 1, 
-          opacity: 1, 
-          scrollTrigger: {
-            trigger: dot,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
+      cardsRef.current.forEach((card, i) => {
+        if (!card) return
+        const isEven = i % 2 === 0
+        
+        // desktop uses scrub for "liquid" feel, mobile uses simple reveal for performance
+        gsap.fromTo(card, 
+          { 
+            opacity: 0, 
+            x: isDesktop ? (isEven ? -150 : 150) : (isEven ? -50 : 50),
+            rotateY: isDesktop ? (isEven ? 25 : -25) : 0,
+            scale: isDesktop ? 0.8 : 0.9,
+            skewX: isDesktop ? (isEven ? 5 : -5) : 0
+          },
+          {
+            opacity: 1, 
+            x: 0,
+            rotateY: 0,
+            scale: 1,
+            skewX: 0,
+            duration: isDesktop ? 1.5 : 0.8,
+            ease: isDesktop ? "expo.out" : "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              start: isDesktop ? "top 95%" : "top 90%",
+              end: isDesktop ? "top 50%" : undefined,
+              scrub: isDesktop ? 1.5 : false,
+              toggleActions: isDesktop ? "play none none reverse" : "play none none none",
+            }
           }
-        }
-      )
+        )
+      })
+
+      dotsRef.current.forEach((dot) => {
+        if (!dot) return
+        gsap.fromTo(dot, 
+          { scale: 0, opacity: 0 },
+          { 
+            scale: 1, 
+            opacity: 1, 
+            scrollTrigger: {
+              trigger: dot,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            }
+          }
+        )
+      })
     })
 
+    return () => mm.revert()
   }, { scope: containerRef })
 
   return (
     <section
       ref={containerRef}
       id="capabilities"
-      className="relative py-64 bg-[#050505] text-[#E2E2F0] overflow-hidden"
+      className="relative py-32 md:py-64 bg-[#050505] text-[#E2E2F0] overflow-hidden"
     >
       <div className="container mx-auto px-6 relative">
         {/* Section Header */}
-        <div className="flex flex-col items-center mb-48 text-center">
-           <span className="text-[#D4FF5A] font-mono text-xs tracking-[0.4em] uppercase font-bold opacity-60 mb-6">
+        <div className="flex flex-col items-center mb-24 md:mb-48 text-center">
+           <span className="text-[#D4FF5A] font-mono text-[10px] md:text-xs tracking-[0.4em] uppercase font-bold opacity-60 mb-4 md:mb-6">
               004 // EXPERTISE
             </span>
-            <h2 className="text-7xl md:text-9xl font-bold tracking-tighter uppercase leading-none text-white">
+            <h2 className="text-5xl sm:text-7xl md:text-9xl font-bold tracking-tighter uppercase leading-none text-white">
               CORE<span className="text-[#D4FF5A]">STACK</span>
             </h2>
-            <div className="w-20 h-1 bg-[#D4FF5A] mt-8 mb-8" />
-            <p className="text-white/40 text-sm font-mono leading-relaxed uppercase tracking-[0.2em] max-w-sm">
+            <div className="w-16 md:w-20 h-1 bg-[#D4FF5A] mt-6 md:mt-8 mb-6 md:mb-8" />
+            <p className="text-white/40 text-[10px] md:text-sm font-mono leading-relaxed uppercase tracking-[0.2em] max-w-xs md:max-w-sm">
               Modular architecture built for speed and cinematic motion.
             </p>
         </div>
@@ -199,22 +210,22 @@ export function CapabilitiesSection() {
         <div className="relative max-w-5xl mx-auto">
           
           {/* Central Vertical Line */}
-          <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px]">
+          <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] md:w-[2px]">
             <div className="w-full h-full bg-white/5" />
             <div 
               ref={lineRef}
-              className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#D4FF5A] via-[#D4FF5A] to-transparent origin-top shadow-[0_0_20px_#D4FF5A]"
+              className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#D4FF5A] via-[#D4FF5A] to-transparent origin-top shadow-[0_0_15px_#D4FF5A] md:shadow-[0_0_20px_#D4FF5A]"
             />
           </div>
 
-          <div className="space-y-24 md:space-y-0 relative z-10">
+          <div className="space-y-16 md:space-y-0 relative z-10">
             {TOOLS_DATA.map((tool, idx) => {
               const isEven = idx % 2 === 0
               return (
                 <div
                   key={idx}
                   className={cn(
-                    "flex flex-col md:flex-row items-start md:items-center justify-between w-full md:min-h-[500px]",
+                    "flex flex-col md:flex-row items-start md:items-center justify-between w-full md:min-h-[400px] lg:min-h-[500px]",
                     isEven ? "md:flex-row-reverse" : ""
                   )}
                 >
@@ -224,17 +235,17 @@ export function CapabilitiesSection() {
                   {/* Dot on Line */}
                   <div 
                     ref={el => { dotsRef.current[idx] = el }}
-                    className="flex absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 md:w-4 md:h-4 rounded-full bg-[#050505] border-2 z-20 transition-all duration-500 group-hover:scale-150" 
-                    style={{ borderColor: tool.color, boxShadow: `0 0 10px ${tool.color}` }}
+                    className="flex absolute left-4 md:left-1/2 -translate-x-1/2 w-2 h-2 md:w-4 md:h-4 rounded-full bg-[#050505] border z-20 transition-all duration-500 group-hover:scale-150" 
+                    style={{ borderColor: tool.color, boxShadow: `0 0 8px ${tool.color}` }}
                   />
 
                   {/* Card Content */}
                   <div
                     ref={el => { cardsRef.current[idx] = el }}
-                    className="w-full md:w-[45%] flex flex-col items-start group perspective-1000 pl-12 md:pl-0"
+                    className="w-full md:w-[45%] flex flex-col items-start group perspective-1000 pl-10 md:pl-0 will-change-transform will-change-opacity"
                   >
                     <div className={cn(
-                      "w-full border bg-[#0A0A0F]/60 backdrop-blur-2xl p-6 md:p-12 rounded-[2rem] md:rounded-[3.5rem] transition-all duration-700 shadow-[0_40px_80px_rgba(0,0,0,0.6)] flex flex-col items-start gap-6 md:gap-8 group-hover:-translate-y-6 group-hover:shadow-[0_60px_100px_rgba(0,0,0,0.8)]",
+                      "w-full border bg-[#0A0A0F]/60 backdrop-blur-lg md:backdrop-blur-2xl p-6 md:p-12 rounded-[1.5rem] md:rounded-[3.5rem] transition-all duration-700 shadow-xl md:shadow-[0_40px_80px_rgba(0,0,0,0.6)] flex flex-col items-start gap-5 md:gap-8 group-hover:-translate-y-4 md:group-hover:-translate-y-6 group-hover:shadow-2xl md:group-hover:shadow-[0_60px_100px_rgba(0,0,0,0.8)]",
                       isEven ? "md:items-end md:text-right" : ""
                     )}
                     style={{ borderColor: 'rgba(255,255,255,0.05)' }}
@@ -243,24 +254,24 @@ export function CapabilitiesSection() {
                       {/* Tech Icon with Brand Glow */}
                       <div className="relative">
                         <div 
-                          className="absolute inset-0 blur-[30px] md:blur-[50px] rounded-full scale-0 group-hover:scale-175 transition-transform duration-1000 opacity-0 group-hover:opacity-30" 
+                          className="absolute inset-0 blur-[20px] md:blur-[50px] rounded-full scale-0 group-hover:scale-175 transition-transform duration-1000 opacity-0 group-hover:opacity-20 md:group-hover:opacity-30" 
                           style={{ backgroundColor: tool.color }}
                         />
                         <tool.icon 
-                          className="w-12 h-12 md:w-24 md:h-24 transition-all duration-700 relative z-10 drop-shadow-2xl" 
+                          className="w-10 h-10 md:w-24 md:h-24 transition-all duration-700 relative z-10 drop-shadow-xl md:drop-shadow-2xl" 
                           style={{ color: tool.color }}
                         />
                       </div>
 
-                      <div className="space-y-4 md:space-y-6 w-full">
+                      <div className="space-y-3 md:space-y-6 w-full">
                         <div className={cn(
-                          "flex items-center gap-3 md:gap-4",
+                          "flex items-center gap-2 md:gap-4",
                           isEven ? "md:flex-row-reverse" : ""
                         )}>
                            <span className="font-mono text-[8px] md:text-[10px] opacity-30 font-bold">
                             {String(idx + 1).padStart(2, '0')}
                           </span>
-                          <h3 className="font-mono text-2xl md:text-5xl tracking-tight uppercase font-black text-white transition-all duration-500 group-hover:tracking-widest"
+                          <h3 className="font-mono text-xl sm:text-2xl md:text-5xl tracking-tight uppercase font-black text-white transition-all duration-500 group-hover:tracking-widest"
                               style={{ color: tool.name === 'Next.js' || tool.name === 'shadcn/ui' || tool.name === 'JavaScript' ? 'white' : undefined }}
                           >
                             {tool.name}
@@ -268,12 +279,12 @@ export function CapabilitiesSection() {
                         </div>
                         <div 
                           className={cn(
-                            "h-[2px] transition-all duration-1000 group-hover:w-full",
-                            isEven ? "w-8 md:w-12 ml-auto" : "w-8 md:w-12"
+                            "h-[1px] md:h-[2px] transition-all duration-1000 group-hover:w-full",
+                            isEven ? "w-6 md:w-12 ml-auto" : "w-6 md:w-12"
                           )}
                           style={{ backgroundColor: tool.color, boxShadow: `0 0 10px ${tool.color}` }}
                         />
-                        <p className="text-[10px] md:text-sm text-white/30 font-mono tracking-[0.2em] leading-relaxed uppercase group-hover:text-white/70 transition-all duration-500 max-w-[320px]">
+                        <p className="text-[10px] md:text-sm text-white/30 font-mono tracking-[0.15em] md:tracking-[0.2em] leading-relaxed uppercase group-hover:text-white/70 transition-all duration-500 max-w-[280px] md:max-w-[320px]">
                           {tool.description}
                         </p>
                       </div>
