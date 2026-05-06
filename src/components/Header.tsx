@@ -114,7 +114,7 @@ export function Header({ isLoaded }: { isLoaded: boolean }) {
             />
           </button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Cinematic Mobile Menu Overlay */}
       <AnimatePresence>
