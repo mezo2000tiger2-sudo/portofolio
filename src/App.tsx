@@ -28,7 +28,7 @@ function App() {
      <Preloader onComplete={() => setIsLoaded(true)} />
      <Sidebar />
       <div className="flex-1 flex flex-col min-w-0 overflow-x-clip">
-        <Header />
+        <Header isLoaded={isLoaded} />
         <main>
           <Hero isLoaded={isLoaded} />
           <CapabilitiesSection />

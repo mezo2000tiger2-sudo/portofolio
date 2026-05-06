@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils"
 import { useActiveSection } from "@/hooks/use-active-section"
 import { motion, AnimatePresence } from "motion/react"
 
-export function Header() {
+export function Header({ isLoaded }: { isLoaded: boolean }) {
   const [isOpen, setIsOpen] = useState(false)
 
   const navLinks = useMemo(() => [
@@ -47,7 +47,10 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-[100] flex justify-center pointer-events-none">
-      <div 
+      <motion.div 
+        initial={{ y: -100, opacity: 0 }}
+        animate={isLoaded ? { y: 0, opacity: 1 } : { y: -100, opacity: 0 }}
+        transition={{ duration: 1, ease: [0.23, 1, 0.32, 1], delay: 1.2 }}
         className={cn(
           "relative z-[110] pointer-events-auto transition-colors duration-500 flex items-center justify-between w-full py-4 md:py-6 bg-[#0E0E12]/95 backdrop-blur-md border-b border-[#222] px-4 md:px-12"
         )}

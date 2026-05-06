@@ -36,7 +36,7 @@ export function Preloader({ onComplete }: { onComplete?: () => void }) {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[100] flex pointer-events-none"
+      className="fixed inset-0 z-[999] flex pointer-events-none"
     >
       {[...Array(8)].map((_, i) => (
         <div
