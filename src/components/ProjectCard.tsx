@@ -14,7 +14,7 @@ function ProjectCardInner({ title, utils, link, img, description, category, imag
   const techTags = utils.split(",").map((tag) => tag.trim()).filter(Boolean)
 
   const CardContent = (
-    <div className="w-[85vw] md:w-[600px] h-full flex-none aspect-video relative overflow-hidden group bg-[#0C0C10] flex flex-col cursor-pointer transform transition-transform duration-500 shadow-xl border border-white/5">
+    <div className="w-[85vw] md:w-[600px] h-[50vh] md:h-full flex-none aspect-[4/5] md:aspect-video relative overflow-hidden group bg-[#0C0C10] flex flex-col cursor-pointer transform transition-transform duration-500 shadow-xl border border-white/5 rounded-xl md:rounded-none">
       {/* Background Area */}
       <div className="absolute inset-0 bg-[#121218] transition-colors duration-500 group-hover:bg-[#1a1a24]">
         {img ? (
@@ -33,26 +33,26 @@ function ProjectCardInner({ title, utils, link, img, description, category, imag
       </div>
 
       {/* Info overlay */}
-      <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 pt-24 flex items-end justify-between z-10 bg-gradient-to-t from-black/90 to-transparent">
-        <div className="flex-1 mr-4">
-          <h3 className="font-heading font-extrabold text-2xl md:text-3xl text-white tracking-tighter uppercase mb-2">
+      <div className="absolute bottom-0 left-0 w-full p-4 md:p-8 pt-20 md:pt-24 flex items-end justify-between z-10 bg-gradient-to-t from-black/95 via-black/40 to-transparent">
+        <div className="flex-1 mr-2 md:mr-4">
+          <h3 className="font-heading font-extrabold text-xl sm:text-2xl md:text-3xl text-white tracking-tighter uppercase mb-1 md:mb-2">
             {title}
           </h3>
           
           {description && (
-            <p className="text-white/60 text-xs md:text-sm mb-4 line-clamp-2 max-w-md">
+            <p className="text-white/70 text-[10px] sm:text-xs md:text-sm mb-3 md:mb-4 line-clamp-3 md:line-clamp-2 max-w-md">
               {description}
             </p>
           )}
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5 md:gap-2">
             {category && (
-              <span className="bg-primary text-black font-mono text-[9px] py-1 px-3 uppercase tracking-widest font-bold">
+              <span className="bg-primary text-black font-mono text-[8px] md:text-[9px] py-0.5 md:py-1 px-2 md:px-3 uppercase tracking-widest font-bold">
                 {category}
               </span>
             )}
             {techTags.map((tag, i) => (
-              <span key={i} className="border border-white/20 text-white font-mono text-[9px] py-1 px-3 uppercase tracking-widest font-bold">
+              <span key={i} className="border border-white/20 text-white font-mono text-[8px] md:text-[9px] py-0.5 md:py-1 px-2 md:px-3 uppercase tracking-widest font-bold">
                 {tag}
               </span>
             ))}

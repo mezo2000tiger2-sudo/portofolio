@@ -115,9 +115,9 @@ export function WorksCarousel() {
   }, { scope: sectionRef, dependencies: [lowPower] })
 
   return (
-    <section id="works" ref={sectionRef} className="bg-background overflow-hidden min-h-screen flex flex-col pt-32 pb-12">
-      <div className="container mx-auto px-6 mb-16">
-        <div className="flex items-center justify-between border-b border-[#333] pb-6 mb-16">
+    <section id="works" ref={sectionRef} className="bg-background overflow-hidden h-screen flex flex-col py-12 md:py-24">
+      <div className="container mx-auto px-6 mb-8 md:mb-16">
+        <div className="flex items-center justify-between border-b border-[#333] pb-4 md:pb-6 mb-8 md:mb-16">
           <span className="text-primary font-mono text-[10px] uppercase font-bold tracking-widest">SELECTED PROJECTS</span>
           <span className="text-[#8888aa] font-mono text-[10px] uppercase font-bold tracking-widest text-right">01 /<br />{PROJECTS.length.toString().padStart(2, '0')}</span>
         </div>
@@ -126,10 +126,10 @@ export function WorksCarousel() {
         </h2>
       </div>
 
-      <div className="w-full flex pt-12 pb-12 overflow-visible items-center flex-1">
+      <div className="w-full flex py-4 md:py-12 overflow-visible items-center flex-1">
         <div 
           ref={trackRef} 
-          className="flex gap-12 pl-6 md:pl-[10%] pr-6 md:pr-[10%]" 
+          className="flex gap-8 md:gap-12 pl-6 md:pl-[10%] pr-6 md:pr-[10%]" 
           id="works-carousel-track"
           style={{ willChange: "transform" }}
         >
@@ -143,7 +143,7 @@ export function WorksCarousel() {
         </div>
         
       </div>
-      <div className=" w-full flex items-center justify-center progressHolder px-6">
+      <div className=" w-full flex items-center justify-center progressHolder px-6 mb-8 md:mb-12">
   <div className="relative w-full max-w-[400px] h-[8px] bg-white/10 rounded-full overflow-hidden progressBarBG">
     <div className="absolute top-0 left-0 w-full h-full bg-[#d4ff33] shadow-[0_0_15px_#d4ff33] origin-left scale-x-0 progressBar"></div>
   </div>
