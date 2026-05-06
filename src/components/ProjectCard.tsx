@@ -14,7 +14,7 @@ function ProjectCardInner({ title, utils, link, img, description, category, imag
   const techTags = utils.split(",").map((tag) => tag.trim()).filter(Boolean)
 
   const CardContent = (
-    <div className="w-[85vw] md:w-[600px] h-auto flex-none aspect-video relative overflow-hidden group bg-[#0C0C10] flex flex-col cursor-pointer transform transition-transform duration-500 shadow-xl border border-white/5 rounded-lg md:rounded-none">
+    <div className="w-[85vw] md:w-[600px] h-auto flex-none aspect-video relative overflow-hidden group bg-[#0C0C10] flex flex-col cursor-pointer transform transition-transform duration-500 shadow-xl border border-white/5 md:rounded-none">
       {/* Background Area */}
       <div className="absolute inset-0 bg-[#121218] transition-colors duration-500 group-hover:bg-[#1a1a24]">
         {img ? (
